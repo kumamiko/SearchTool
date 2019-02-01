@@ -1,0 +1,223 @@
+﻿<Window x:Class="SearchTool.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:utils="clr-namespace:SearchTool.Utils"
+        Title="{Binding Title}"
+        AllowsTransparency="True" Background="Transparent"
+        WindowStyle="None" ResizeMode="NoResize"
+        Height="420" Width="320">
+    <Window.Resources>
+        <Storyboard x:Key="CloseAnimation">
+            <DoubleAnimation Storyboard.TargetName="rootBorder" Storyboard.TargetProperty="Height" To="50" Duration="0:0:0.3">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="rootBorder" Storyboard.TargetProperty="Width" To="50" Duration="0:0:0.3">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="gridClose" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.CornerRadius)">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <CornerRadius TopLeft="10" TopRight="10" BottomLeft="10" BottomRight="10"/>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.2">
+                    <DiscreteObjectKeyFrame.Value>
+                        <CornerRadius TopLeft="25" TopRight="25" BottomLeft="25" BottomRight="25"/>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetName="gridOpen" Storyboard.TargetProperty="Opacity"
+                                             To="0" Duration="0:0:0.1"/>
+            <DoubleAnimation Storyboard.TargetName="gridClose" Storyboard.TargetProperty="Opacity"
+                                             To="1" Duration="0:0:0.2" BeginTime="0:0:0.1"/>
+            <ColorAnimation Storyboard.TargetName="rootBorder" Storyboard.TargetProperty="Background.Color" To="#4F9EFF" Duration="0:0:0.2"/>
+        </Storyboard>
+        <Storyboard x:Key="OpenAnimation">
+            <DoubleAnimation Storyboard.TargetName="rootBorder" Storyboard.TargetProperty="Height" To="400" Duration="0:0:0.3">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="rootBorder" Storyboard.TargetProperty="Width" To="300" Duration="0:0:0.3">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase EasingMode="EaseInOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="gridClose" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Hidden</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Border.CornerRadius)">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <CornerRadius TopLeft="25" TopRight="25" BottomLeft="25" BottomRight="25"/>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.2">
+                    <DiscreteObjectKeyFrame.Value>
+                        <CornerRadius TopLeft="10" TopRight="10" BottomLeft="10" BottomRight="10"/>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+            <DoubleAnimation Storyboard.TargetName="gridClose" Storyboard.TargetProperty="Opacity"
+                                             To="0" Duration="0:0:0.1"/>
+            <DoubleAnimation Storyboard.TargetName="gridOpen" Storyboard.TargetProperty="Opacity"
+                                             To="1" Duration="0:0:0.2" BeginTime="0:0:0.1"/>
+            <ColorAnimation Storyboard.TargetName="rootBorder" Storyboard.TargetProperty="Background.Color" To="White" Duration="0:0:0.2"/>
+        </Storyboard>
+        <ContextMenu x:Key="Menu">
+            <MenuItem x:Name="menuTopmost" Header="置顶" Click="MenuTopmost_Click"/>
+            <!--<Separator/>-->
+            <MenuItem x:Name="menuAbout" Header="关于" Click="MenuAbout_Click"/>
+            <MenuItem x:Name="menuExit" Header="退出" Click="MenuExit_Click"/>
+        </ContextMenu>
+        <ContextMenu x:Key="TextBoxMenu">
+            <MenuItem Command="Cut"/>
+            <MenuItem Command="Copy"/>
+            <MenuItem Command="Paste"/>
+        </ContextMenu>
+    </Window.Resources>
+    <Canvas x:Name="rootCanvus" ContextMenu="{StaticResource Menu}">
+        <Border x:Name="rootBorder"
+            Height="400" Width="300"
+            CornerRadius="10"
+            Background="White"
+            Canvas.Left="10" Canvas.Top="10"
+            >
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="10" ShadowDepth="0" Direction="270" Opacity="0.3"/>
+            </Border.Effect>
+            <Grid>
+                <Grid x:Name="gridOpen" Opacity="1" Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="45"/>
+                    </Grid.RowDefinitions>
+                    <Grid x:Name="spTitle" Grid.Row="0"
+                                Background="White"
+                                Height="30" Width="280"
+                                VerticalAlignment="Top" HorizontalAlignment="Right">
+                        <Button x:Name="btnClose" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right"
+                                Style="{StaticResource IconButton}"
+                            VerticalAlignment="Top" Margin="0 0 25 0"
+                            Height="20" Width="20"
+                                ToolTip="缩小">
+                            <Ellipse Width="15" Height="15" Fill="#5BFF8C"/>
+                        </Button>
+                        <Button x:Name="btnExit" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right"
+                                Style="{StaticResource IconButton}"
+                            VerticalAlignment="Top"
+                            Height="20" Width="20"
+                                ToolTip="退出">
+                            <Ellipse Width="15" Height="15" Fill="#EB493B"/>
+                        </Button>
+                    </Grid>
+                    <ScrollViewer Grid.Row="1">
+                        <ItemsControl x:Name="listviewResult" ItemsSource="{Binding Meanings}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel IsItemsHost="True"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Margin="5 0 0 10" CornerRadius="5"
+                                    Width="265"
+                                    Background="#4285F4">
+                                        <Border.Effect>
+                                            <DropShadowEffect Direction="270" ShadowDepth="1" BlurRadius="5" Opacity="0.5"/>
+                                        </Border.Effect>
+                                        <StackPanel Margin="10">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Head}" Foreground="White" FontSize="15" TextWrapping="WrapWithOverflow"/>
+                                            </StackPanel>
+                                            <TextBox Margin="0 10 0 0" Background="Transparent" BorderThickness="0" TextBlock.LineHeight="20" Text="{Binding Body}"
+                                                     IsReadOnly="True"  FontWeight="ExtraLight" FontSize="13" TextWrapping="WrapWithOverflow"
+                                                     ContextMenu="{StaticResource TextBoxMenu}"
+                                                     Foreground="White"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                    <Border Grid.Row="2" Height="40" VerticalAlignment="Bottom" CornerRadius="5" BorderThickness="1" BorderBrush="#ddd" Background="White">
+                        <Grid>
+                            <TextBox x:Name="txtSearch" BorderThickness="0" Background="Transparent" ContextMenu="{StaticResource TextBoxMenu}"
+                                 FontSize="15" Padding="40 10 40 0"
+                                     Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}">
+                                <TextBox.InputBindings>
+                                    <KeyBinding 
+                              Key="Enter" 
+                              Command="{Binding TextBoxEnterKeyEventCommand}"
+                              CommandParameter="{Binding Text, ElementName=txtSearch}"/>
+                                    <KeyBinding
+                                Key="Esc"
+                                Command="{Binding ClearSearchCommand}"/>
+                                </TextBox.InputBindings>
+                            </TextBox>
+                            <Button Padding="3" Background="Transparent" BorderThickness="0" 
+                                    HorizontalAlignment="Left"
+                                    Style="{StaticResource IconButton}"
+                                    VerticalAlignment="Center" Margin="5 0 0 0"
+                                    Height="30" Width="30"
+                                    Command="{Binding TextBoxEnterKeyEventCommand}"
+                                    CommandParameter="{Binding Text, ElementName=txtSearch}">
+                                <fa:FontAwesome FontSize="20" Icon="Search" Foreground="#aaa"/>
+                            </Button>
+                            <Button Padding="3" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right"
+                                Style="{StaticResource IconButton}"
+                                    VerticalAlignment="Center" Margin="0 0 5 0"
+                                    Height="30" Width="30"
+                                    Command="{Binding ClearSearchCommand}"
+                                    Visibility="{Binding Text, ElementName=txtSearch, Converter={StaticResource StringToVisibilityConverter}}">
+                                <fa:FontAwesome FontSize="20" Icon="Close" Foreground="#aaa"/>
+                            </Button>
+                        </Grid>
+                    </Border>
+                    <Border Background="#4285F4" Height="100" CornerRadius="5" VerticalAlignment="Top" Margin="0 30"
+                            RenderTransformOrigin="0.5 0.5">
+                        <Border.RenderTransform>
+                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                        </Border.RenderTransform>
+                        <Border.Triggers>
+                            <EventTrigger RoutedEvent="MouseLeftButtonDown">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)" To="0.9"/>
+                                        <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)" To="0.9"/>
+                                        <DoubleAnimation Duration="0:0:0.1" BeginTime="0:0:0.1"  Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleX)" To="1"/>
+                                        <DoubleAnimation Duration="0:0:0.1" BeginTime="0:0:0.1" Storyboard.TargetProperty="(Border.RenderTransform).(ScaleTransform.ScaleY)" To="1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Border.Triggers>
+
+                    </Border>
+                </Grid>
+                <Grid x:Name="gridClose" Opacity="0" Visibility="Hidden">
+                    <fa:FontAwesome HorizontalAlignment="Center" VerticalAlignment="Center"
+                              Height="50" Width="50" Padding="0 15" FontWeight="UltraLight" FontSize="20" Icon="Search" Foreground="White"/>
+                </Grid>
+            </Grid>
+        </Border>
+    </Canvas>
+</Window>
