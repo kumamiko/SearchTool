@@ -4,11 +4,22 @@
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:utils="clr-namespace:SearchTool.Utils"
         Title="{Binding Title}"
         AllowsTransparency="True" Background="Transparent"
         WindowStyle="None" ResizeMode="NoResize"
+        Left="{Binding Left, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+        Top="{Binding Top, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         Height="420" Width="320">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <prism:InvokeCommandAction Command="{Binding LoadSettingCommand}" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Closed">
+            <prism:InvokeCommandAction Command="{Binding SaveSettingCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Window.Resources>
         <Storyboard x:Key="CloseAnimation">
             <DoubleAnimation Storyboard.TargetName="rootBorder" Storyboard.TargetProperty="Height" To="50" Duration="0:0:0.3">
@@ -129,8 +140,14 @@
                                 ToolTip="退出">
                             <Ellipse Width="15" Height="15" Fill="#EB493B"/>
                         </Button>
+                        <StackPanel Orientation="Horizontal" Margin="10 0" VerticalAlignment="Top">
+                            <RadioButton Content="日" Style="{StaticResource RadioButtonWithoutCircle}"
+                                         IsChecked="{Binding RadioType, Converter={StaticResource ResourceKey=StringToBooleanConverter}, ConverterParameter=日}"/>
+                            <RadioButton Content="英" Style="{StaticResource RadioButtonWithoutCircle}"
+                                         IsChecked="{Binding RadioType, Converter={StaticResource ResourceKey=StringToBooleanConverter}, ConverterParameter=英}"/>
+                        </StackPanel>
                     </Grid>
-                    <ScrollViewer Grid.Row="1">
+                    <ScrollViewer x:Name="scrollviewerContent" Grid.Row="1">
                         <ItemsControl x:Name="listviewResult" ItemsSource="{Binding Meanings}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>

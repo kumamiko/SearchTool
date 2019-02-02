@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using SearchTool.ViewModels;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
@@ -29,6 +30,8 @@ namespace SearchTool.Views
 
             txtSearch.DragEnter += (_, e) => e.Effects = DragDropEffects.Copy;
             txtSearch.PreviewDragOver += (s, e) => { txtSearch.Text = string.Empty; };
+
+            MainWindowViewModel.ScrollToTop += () => ScrollToTop();
         }
 
         private void MenuTopmost_Click(object sender, RoutedEventArgs e)
@@ -45,5 +48,7 @@ namespace SearchTool.Views
         {
             new AboutWindow().Show();
         }
+
+        public void ScrollToTop() => scrollviewerContent.ScrollToTop();
     }
 }

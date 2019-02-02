@@ -2,6 +2,7 @@
 using Prism.Ioc;
 using Prism.Modularity;
 using System.Windows;
+using System;
 
 namespace SearchTool
 {
@@ -10,6 +11,7 @@ namespace SearchTool
     /// </summary>
     public partial class App
     {
+
         protected override Window CreateShell()
         {
             return Container.Resolve<MainWindow>();

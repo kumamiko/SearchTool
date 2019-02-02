@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Iciba.cs" />
     <Compile Include="Kotobank.cs" />
     <Compile Include="ISearch.cs" />
     <Compile Include="Models\Result.cs" />
