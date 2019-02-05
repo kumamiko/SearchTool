@@ -106,7 +106,6 @@
     </Compile>
     <Compile Include="Resources\Converters\StringToBooleanConverter.cs" />
     <Compile Include="Resources\Converters\StringToVisibilityConverter.cs" />
-    <Compile Include="Utils\ControlUtils.cs" />
     <Compile Include="Utils\DispatchService.cs" />
     <Compile Include="Utils\XmlUtils.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />

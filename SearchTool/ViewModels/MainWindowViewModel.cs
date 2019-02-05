@@ -11,7 +11,7 @@ namespace SearchTool.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        private string _title = "Prism Application";
+        private string _title = "SearchTool";
         public string Title
         {
             get { return _title; }
@@ -44,6 +44,13 @@ namespace SearchTool.ViewModels
         {
             get { return _top; }
             set { SetProperty(ref _top, value); }
+        }
+
+        private bool _topmost;
+        public bool Topmost
+        {
+            get { return _topmost; }
+            set { SetProperty(ref _topmost, value); }
         }
 
         private ObservableCollection<Meaning> meanings = new ObservableCollection<Meaning>();
@@ -117,6 +124,7 @@ namespace SearchTool.ViewModels
             Top = double.Parse(Properties.Settings.Default.Top);
             Left = double.Parse(Properties.Settings.Default.Left);
             RadioType = Properties.Settings.Default.RadioType;
+            Topmost = bool.Parse(Properties.Settings.Default.Topmost);
         }
 
         public void SaveSetting()
@@ -126,6 +134,7 @@ namespace SearchTool.ViewModels
             helper.SetSettingValue("Top", Top.ToString());
             helper.SetSettingValue("Left", Left.ToString());
             helper.SetSettingValue("RadioType", RadioType);
+            helper.SetSettingValue("Topmost", Topmost.ToString());
 
             helper.Save();
         }

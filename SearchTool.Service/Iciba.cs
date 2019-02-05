@@ -31,13 +31,13 @@ namespace SearchTool.Service
                 StringBuilder body = new StringBuilder();
                 foreach (var item in bodyNodes)
                 {
-                    body.AppendLine(item.InnerText.Replace(" ", "").Replace("\n", " "));
+                    body.AppendLine(new System.Text.RegularExpressions.Regex("[\\s]+").Replace(item.InnerText, " ").Replace("\n", " "));
                 }
 
                 res.Meanings.Add(
                     new Meaning
                     {
-                        Head = headNode.InnerText.Replace(" ", "").Replace("\n", " ").Trim(),
+                        Head = new System.Text.RegularExpressions.Regex("[\\s]+").Replace(headNode.InnerText, " ").Replace("\n", " ").Trim(),
                         Body = body.ToString()
                     }
                 );

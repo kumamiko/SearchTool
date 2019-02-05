@@ -9,6 +9,7 @@
         Title="{Binding Title}"
         AllowsTransparency="True" Background="Transparent"
         WindowStyle="None" ResizeMode="NoResize"
+        Topmost="{Binding Topmost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         Left="{Binding Left, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         Top="{Binding Top, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         Height="420" Width="320">

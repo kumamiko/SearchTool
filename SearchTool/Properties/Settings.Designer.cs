@@ -58,5 +58,17 @@ namespace SearchTool.Properties {
                 this["RadioType"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public string Topmost {
+            get {
+                return ((string)(this["Topmost"]));
+            }
+            set {
+                this["Topmost"] = value;
+            }
+        }
     }
 }
