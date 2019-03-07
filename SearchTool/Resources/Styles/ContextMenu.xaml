@@ -95,9 +95,11 @@
                 <ContentPresenter Name="HeaderHost"
                                   Grid.Column="1"
                                   ContentSource="Header"
+                                  VerticalAlignment="Center"
                                   RecognizesAccessKey="True" />
                 <TextBlock x:Name="InputGestureText"
                            Grid.Column="2"
+                           VerticalAlignment="Center"
                            Text="{TemplateBinding InputGestureText}"
                            Margin="10,0,0,0"
                            DockPanel.Dock="Right" />

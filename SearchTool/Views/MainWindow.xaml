@@ -112,6 +112,7 @@
             CornerRadius="10"
             Background="White"
             Canvas.Left="10" Canvas.Top="10"
+            AllowDrop="True"
             >
             <Border.Effect>
                 <DropShadowEffect BlurRadius="10" ShadowDepth="0" Direction="270" Opacity="0.3"/>
@@ -157,8 +158,27 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Margin="5 0 0 10" CornerRadius="5"
-                                    Width="265"
+                                    <DataTemplate.Triggers>
+                                        <EventTrigger RoutedEvent="Loaded">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <!--渐入动画-->
+                                                    <DoubleAnimation Storyboard.TargetName="border"
+                                                                     Storyboard.TargetProperty="Opacity"
+                                                                     From="0" To="1" Duration="0:0:0.3"/>
+                                                    <ThicknessAnimation Storyboard.TargetName="border"
+                                                                     Storyboard.TargetProperty="Margin"
+                                                                     From="5,30,0,10" To="5,0,0,10" Duration="0:0:0.3">
+                                                        <ThicknessAnimation.EasingFunction>
+                                                            <QuinticEase EasingMode="EaseOut"/>
+                                                        </ThicknessAnimation.EasingFunction>
+                                                    </ThicknessAnimation>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </DataTemplate.Triggers>
+                                    <Border x:Name="border" Margin="5 0 0 10" CornerRadius="5"
+                                    Width="265" Opacity="0"
                                     Background="#4285F4">
                                         <Border.Effect>
                                             <DropShadowEffect Direction="270" ShadowDepth="1" BlurRadius="5" Opacity="0.5"/>

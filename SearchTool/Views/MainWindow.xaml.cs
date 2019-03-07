@@ -1,5 +1,6 @@
 ﻿using SearchTool.ViewModels;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
@@ -30,6 +31,27 @@ namespace SearchTool.Views
 
             txtSearch.DragEnter += (_, e) => e.Effects = DragDropEffects.Copy;
             txtSearch.PreviewDragOver += (s, e) => { txtSearch.Text = string.Empty; };
+
+            rootBorder.PreviewDrop += (_, e) =>
+            {
+                e.Effects = DragDropEffects.Copy;
+            };
+            rootBorder.Drop += (_, e) =>
+            {
+                e.Handled = true;
+
+                if (!e.Data.GetDataPresent(DataFormats.Text)) return;
+
+                txtSearch.Text = e.Data.GetData(typeof(string)).ToString();
+
+                //给 txtSearch 添加 Enter
+                txtSearch.RaiseEvent(new KeyEventArgs(
+                      Keyboard.PrimaryDevice,
+                      PresentationSource.FromVisual(this),
+                      0,
+                      Key.Enter)
+                { RoutedEvent = TextBox.KeyDownEvent });
+            };
 
             MainWindowViewModel.ScrollToTop += () => ScrollToTop();
         }
