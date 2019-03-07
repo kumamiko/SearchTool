@@ -4,8 +4,9 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/SearchTool;component/Resources/Styles/ContextMenu.xaml" />
         <ResourceDictionary Source="/SearchTool;component/Resources/Styles/FontStyles.xaml" />
-        <ResourceDictionary Source="/SearchTool;component/Resources/Styles/ScrollBar.xaml" />
         <ResourceDictionary Source="/SearchTool;component/Resources/Styles/ButtonStyles.xaml" />
         <ResourceDictionary Source="/SearchTool;component/Resources/Styles/RadioButtonStyles.xaml" />
+        <ResourceDictionary Source="/SearchTool;component/Resources/Styles/ToolTipStyles.xaml" />
+        <ResourceDictionary Source="/SearchTool;component/Resources/Styles/ScrollViewer.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

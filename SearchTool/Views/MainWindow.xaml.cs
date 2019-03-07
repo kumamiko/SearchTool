@@ -40,9 +40,10 @@ namespace SearchTool.Views
             {
                 e.Handled = true;
 
-                if (!e.Data.GetDataPresent(DataFormats.Text)) return;
+                //用 unicode 防止中文乱码
+                if (!e.Data.GetDataPresent(DataFormats.UnicodeText)) return;
 
-                txtSearch.Text = e.Data.GetData(typeof(string)).ToString();
+                txtSearch.Text = e.Data.GetData(DataFormats.UnicodeText).ToString();
 
                 //给 txtSearch 添加 Enter
                 txtSearch.RaiseEvent(new KeyEventArgs(
