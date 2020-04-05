@@ -13,7 +13,7 @@
         Topmost="{Binding Topmost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         Left="{Binding Left, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         Top="{Binding Top, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-        Height="420" Width="320"
+        Height="520" Width="420"
         >
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -35,6 +35,13 @@
                     <QuinticEase EasingMode="EaseInOut"/>
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="scrollviewerContent" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Collapsed</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="gridClose" Storyboard.TargetProperty="Visibility">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0">
                     <DiscreteObjectKeyFrame.Value>
@@ -61,16 +68,23 @@
             <ColorAnimation Storyboard.TargetName="rootBorder" Storyboard.TargetProperty="Background.Color" To="#4F9EFF" Duration="0:0:0.2"/>
         </Storyboard>
         <Storyboard x:Key="OpenAnimation">
-            <DoubleAnimation Storyboard.TargetName="rootBorder" Storyboard.TargetProperty="Height" To="400" Duration="0:0:0.3">
+            <DoubleAnimation Storyboard.TargetName="rootBorder" Storyboard.TargetProperty="Height" To="500" Duration="0:0:0.3">
                 <DoubleAnimation.EasingFunction>
                     <QuinticEase EasingMode="EaseInOut"/>
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
-            <DoubleAnimation Storyboard.TargetName="rootBorder" Storyboard.TargetProperty="Width" To="300" Duration="0:0:0.3">
+            <DoubleAnimation Storyboard.TargetName="rootBorder" Storyboard.TargetProperty="Width" To="400" Duration="0:0:0.3">
                 <DoubleAnimation.EasingFunction>
                     <QuinticEase EasingMode="EaseInOut"/>
                 </DoubleAnimation.EasingFunction>
             </DoubleAnimation>
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="scrollviewerContent" Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                    <DiscreteObjectKeyFrame.Value>
+                        <Visibility>Visible</Visibility>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="gridClose" Storyboard.TargetProperty="Visibility">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0">
                     <DiscreteObjectKeyFrame.Value>
@@ -110,7 +124,7 @@
     </Window.Resources>
     <Canvas x:Name="rootCanvus" ContextMenu="{StaticResource Menu}">
         <Border x:Name="rootBorder"
-            Height="400" Width="300"
+            Height="500" Width="400"
             CornerRadius="10"
             Background="White"
             Canvas.Left="10" Canvas.Top="10"
@@ -127,9 +141,9 @@
                         <RowDefinition Height="45"/>
                     </Grid.RowDefinitions>
                     <Grid x:Name="spTitle" Grid.Row="0"
-                                Background="White"
-                                Height="30" Width="280"
-                                VerticalAlignment="Top" HorizontalAlignment="Right">
+                            Background="White"
+                            Height="30" Width="380"
+                            VerticalAlignment="Top" HorizontalAlignment="Right">
                         <Button x:Name="btnClose" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right"
                                 Style="{StaticResource IconButton}"
                             VerticalAlignment="Top" Margin="0 0 25 0"
@@ -188,6 +202,7 @@
                                         <Grid>
                                             <Grid.Resources>
                                                 <Style TargetType="TextBox">
+                                                    <Setter Property="IsReadOnly" Value="True"/>
                                                     <Setter Property="Background" Value="Transparent"/>
                                                     <Setter Property="BorderThickness" Value="0"/>
                                                     <Setter Property="TextWrapping" Value="WrapWithOverflow"/>

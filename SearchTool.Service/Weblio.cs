@@ -15,7 +15,7 @@ namespace SearchTool.Service
         {
             try
             {
-                var html = await $"https://www.weblio.jp/content/{keyword}".WithTimeout(TimeSpan.FromSeconds(5)).GetStringAsync();
+                var html = await $"https://www.weblio.jp/content/{keyword}".WithTimeout(TimeSpan.FromSeconds(10)).GetStringAsync();
 
                 HtmlDocument doc = new HtmlDocument();
                 doc.LoadHtml(html);
@@ -37,22 +37,42 @@ namespace SearchTool.Service
                         HtmlNodeCollection NetDicHead_items = kijiWrp_items[i].SelectNodes("div[@class='kiji']/div[@class='NetDicHead']");
                         HtmlNodeCollection NetDicBody_items = kijiWrp_items[i].SelectNodes("div[@class='kiji']/div[@class='NetDicBody']");
 
-                        if (NetDicHead_items == null || NetDicBody_items == null) continue;
-
-                        for (int j = 0; j < NetDicHead_items.Count; j++)
+                        if (NetDicHead_items == null || NetDicBody_items == null)
                         {
-                            HtmlNode wordNode = NetDicHead_items[j].SelectSingleNode(".");
-                            HtmlNode contentNode = NetDicBody_items[j].SelectSingleNode(".");
+                            HtmlNode kijiNode = kijiWrp_items[i].SelectSingleNode("div[@class='kiji']");
 
-                            if (wordNode == null || contentNode == null) continue;
+                            if (kijiNode == null) continue;
+                            HtmlNode node_1 = kijiNode.SelectSingleNode("h2[@class='midashigo']");
+                            HtmlNode node_2 = kijiNode.SelectSingleNode("div[1]");
 
-                            res.Meanings.Add(new Meaning {
-                                Word = new System.Text.RegularExpressions.Regex("[\\s]+").Replace(wordNode.InnerText, " ").Trim(),
-                                Content = new System.Text.RegularExpressions.Regex("[\\s]+").Replace(contentNode.InnerText, " ").Trim(),
+                            if (node_1 == null || node_2 == null) continue;
+
+                            res.Meanings.Add(new Meaning
+                            {
+                                Word = new System.Text.RegularExpressions.Regex("[\\s]+").Replace(node_1.InnerText, " ").Trim(),
+                                Content = new System.Text.RegularExpressions.Regex("[\\s]+").Replace(node_2.InnerText, " ").Trim(),
                                 Pronounce = string.Empty,
                                 Info = info
                             });
                         }
+                        else
+                        {
+                            for (int j = 0; j < NetDicHead_items.Count; j++)
+                            {
+                                HtmlNode wordNode = NetDicHead_items[j].SelectSingleNode(".");
+                                HtmlNode contentNode = NetDicBody_items[j].SelectSingleNode(".");
+
+                                if (wordNode == null || contentNode == null) continue;
+
+                                res.Meanings.Add(new Meaning {
+                                    Word = new System.Text.RegularExpressions.Regex("[\\s]+").Replace(wordNode.InnerText, " ").Trim(),
+                                    Content = new System.Text.RegularExpressions.Regex("[\\s]+").Replace(contentNode.InnerText, " ").Trim(),
+                                    Pronounce = string.Empty,
+                                    Info = info
+                                });
+                            }
+                        }
+
                     }
                 }
                 

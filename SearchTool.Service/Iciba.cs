@@ -15,7 +15,7 @@ namespace SearchTool.Service
         {
             try
             {
-                var html = await $"http://www.iciba.com/{keyword}".WithTimeout(TimeSpan.FromSeconds(5)).GetStringAsync();
+                var html = await $"http://www.iciba.com/{keyword}".WithTimeout(TimeSpan.FromSeconds(10)).GetStringAsync();
 
                 HtmlDocument doc = new HtmlDocument();
                 doc.LoadHtml(html);

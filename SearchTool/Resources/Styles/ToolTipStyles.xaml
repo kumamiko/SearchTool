@@ -8,9 +8,9 @@
                 Value="0"/>
         <Setter Property="BorderBrush"
                 Value="Transparent"/>
-        <Setter Property="Background"
-                Value="#4285F4"/>
         <Setter Property="Foreground"
+                Value="#4285F4"/>
+        <Setter Property="Background"
                 Value="White"/>
         <Setter Property="Padding"
                 Value="10 5"/>
@@ -33,7 +33,7 @@
                             <DropShadowEffect Direction="270" 
                                             ShadowDepth="1" 
                                             BlurRadius="5"
-                                            Color="{Binding Background.Color, RelativeSource={RelativeSource AncestorType=Border}}"
+                                            Color="{Binding Foreground.Color, RelativeSource={RelativeSource AncestorType=TextBlock}}"
                                             Opacity="0.5"/>
                         </Border.Effect>
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
