@@ -10,7 +10,7 @@ namespace SearchTool.Resources.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string str = value as string;
-            return str.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
+            return !string.IsNullOrWhiteSpace(str) && str.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
