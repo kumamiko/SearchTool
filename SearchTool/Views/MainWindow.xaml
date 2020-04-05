@@ -6,13 +6,15 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:utils="clr-namespace:SearchTool.Utils"
+        xmlns:models="clr-namespace:SearchTool.Data;assembly=SearchTool.Data"
         Title="{Binding Title}"
         AllowsTransparency="True" Background="Transparent"
         WindowStyle="None" ResizeMode="NoResize"
         Topmost="{Binding Topmost, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         Left="{Binding Left, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
         Top="{Binding Top, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-        Height="420" Width="320">
+        Height="420" Width="320"
+        >
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <prism:InvokeCommandAction Command="{Binding LoadSettingCommand}" />
@@ -149,15 +151,17 @@
                                          IsChecked="{Binding RadioType, Converter={StaticResource ResourceKey=StringToBooleanConverter}, ConverterParameter=英}"/>
                         </StackPanel>
                     </Grid>
-                    <ScrollViewer x:Name="scrollviewerContent" Grid.Row="1">
-                        <ItemsControl x:Name="listviewResult" ItemsSource="{Binding Meanings}">
+                    <ScrollViewer x:Name="scrollviewerContent" Grid.Row="1"
+                                  Margin="-10 0">
+                        <ItemsControl x:Name="listviewResult" ItemsSource="{Binding Meanings}"
+                                      >
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <WrapPanel IsItemsHost="True"/>
+                                    <StackPanel IsItemsHost="True" Margin="10"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
-                                <DataTemplate>
+                                <DataTemplate DataType="{x:Type models:Meaning}">
                                     <DataTemplate.Triggers>
                                         <EventTrigger RoutedEvent="Loaded">
                                             <BeginStoryboard>
@@ -168,7 +172,7 @@
                                                                      From="0" To="1" Duration="0:0:0.3"/>
                                                     <ThicknessAnimation Storyboard.TargetName="border"
                                                                      Storyboard.TargetProperty="Margin"
-                                                                     From="5,30,0,10" To="5,0,0,10" Duration="0:0:0.3">
+                                                                     From="0 30 0 0" To="0" Duration="0:0:0.3">
                                                         <ThicknessAnimation.EasingFunction>
                                                             <QuinticEase EasingMode="EaseOut"/>
                                                         </ThicknessAnimation.EasingFunction>
@@ -177,25 +181,46 @@
                                             </BeginStoryboard>
                                         </EventTrigger>
                                     </DataTemplate.Triggers>
-                                    <Border x:Name="border" Margin="10 10 10 0" CornerRadius="5"
-                                    Width="270"
-                                    Background="#4285F4">
-                                        <Border.Effect>
-                                            <DropShadowEffect Direction="270" 
-                                                              ShadowDepth="2" 
-                                                              BlurRadius="10"
-                                                              Color="{Binding Background.Color, ElementName=border}"
-                                                              Opacity="0.5"/>
-                                        </Border.Effect>
-                                        <StackPanel Margin="10">
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Head}" Foreground="White" FontSize="15" TextWrapping="WrapWithOverflow"/>
+                                    <Border x:Name="border"
+                                            Padding="0 0 0 10"
+                                            HorizontalAlignment="Stretch"
+                                            >
+                                        <Grid>
+                                            <Grid.Resources>
+                                                <Style TargetType="TextBox">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                    <Setter Property="TextWrapping" Value="WrapWithOverflow"/>
+                                                    <Setter Property="Foreground" Value="White"/>
+                                                </Style>
+                                            </Grid.Resources>
+                                            <Border Background="#4285F4"
+                                                    CornerRadius="5"
+                                                    >
+                                                <Border.Effect>
+                                                    <DropShadowEffect Direction="270" 
+                                                                        ShadowDepth="2" 
+                                                                        BlurRadius="10"
+                                                                        Color="#4285F4"
+                                                                        Opacity="0.5"/>
+                                                </Border.Effect>
+                                            </Border>
+                                            <StackPanel Margin="10">
+                                                <TextBox Text="{Binding Word}" ToolTip="{Binding Word}" FontWeight="Bold" FontSize="18"/>
+                                                <TextBox Text="{Binding Pronounce}" 
+                                                         ToolTip="{Binding Pronounce}" 
+                                                         Margin="0 5"
+                                                         FontSize="15"
+                                                         Visibility="{Binding Pronounce,Converter={StaticResource StringToVisibilityConverter}}"/>
+                                                <TextBox Margin="0 10 0 0" TextBlock.LineHeight="20" Text="{Binding Content}"
+                                                         IsReadOnly="True" 
+                                                         FontWeight="Light"
+                                                         FontSize="14"
+                                                         ContextMenu="{StaticResource TextBoxMenu}"
+                                                         />
+                                                <TextBlock Text="{Binding Info,StringFormat=——  {0}}" FontStyle="Italic" Foreground="White" Margin="0 10 0 0"/>
                                             </StackPanel>
-                                            <TextBox Margin="0 10 0 0" Background="Transparent" BorderThickness="0" TextBlock.LineHeight="20" Text="{Binding Body}"
-                                                     IsReadOnly="True"  FontWeight="ExtraLight" FontSize="13" TextWrapping="WrapWithOverflow"
-                                                     ContextMenu="{StaticResource TextBoxMenu}"
-                                                     Foreground="White"/>
-                                        </StackPanel>
+                                        </Grid>
                                     </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

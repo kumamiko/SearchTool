@@ -1,8 +1,4 @@
-﻿using SearchTool.Service.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using SearchTool.Data;
 using System.Threading.Tasks;
 
 namespace SearchTool.Service

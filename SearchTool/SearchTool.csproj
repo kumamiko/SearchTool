@@ -163,9 +163,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Libraries\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SearchTool.Data\SearchTool.Data.csproj">
+      <Project>{d2d7998c-b45d-4e84-b6f6-84c0e78d0b5e}</Project>
+      <Name>SearchTool.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SearchTool.Service\SearchTool.Service.csproj">
       <Project>{fd75a559-f0c1-4f9a-bbf6-a649a9a20863}</Project>
       <Name>SearchTool.Service</Name>

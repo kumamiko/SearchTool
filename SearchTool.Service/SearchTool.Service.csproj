@@ -55,14 +55,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Iciba.cs" />
-    <Compile Include="Kotobank.cs" />
     <Compile Include="ISearch.cs" />
-    <Compile Include="Models\Result.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Weblio.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SearchTool.Data\SearchTool.Data.csproj">
+      <Project>{d2d7998c-b45d-4e84-b6f6-84c0e78d0b5e}</Project>
+      <Name>SearchTool.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

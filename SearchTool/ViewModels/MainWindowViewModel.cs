@@ -3,7 +3,7 @@ using Prism.Mvvm;
 using System.Threading.Tasks;
 using SearchTool.Service;
 using System.Collections.ObjectModel;
-using SearchTool.Service.Models;
+using SearchTool.Data;
 using SearchTool.Utils;
 using System;
 
@@ -94,7 +94,7 @@ namespace SearchTool.ViewModels
                         if (result != null && result?.Meanings?.Count > 0)
                             Meanings.AddRange(result.Meanings);
                         else
-                            meanings.Add(new Meaning { Head = $"未找到 (´；ω；`)" });
+                            meanings.Add(new Meaning { Word = $"未找到 (´；ω；`)" });
                     });
 
                 }));
@@ -107,7 +107,7 @@ namespace SearchTool.ViewModels
             switch (RadioType)
             {
                 case "日":
-                    search = new Kotobank();
+                    search = new Weblio();
                     break;
                 case "英":
                     search = new Iciba();

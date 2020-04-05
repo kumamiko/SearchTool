@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Flurl.Http;
 using HtmlAgilityPack;
-using SearchTool.Service.Models;
+using SearchTool.Data;
 
 namespace SearchTool.Service
 {
@@ -15,30 +15,38 @@ namespace SearchTool.Service
         {
             try
             {
-                var html = await $"http://www.iciba.com/{keyword}".GetStringAsync();
+                var html = await $"http://www.iciba.com/{keyword}".WithTimeout(TimeSpan.FromSeconds(5)).GetStringAsync();
 
                 HtmlDocument doc = new HtmlDocument();
                 doc.LoadHtml(html);
 
                 Result res = new Result { Keyword = keyword, Meanings = new List<Meaning>() };
 
-                HtmlNode contentNode = doc.DocumentNode.SelectSingleNode("/html/body//div[@class='in-base']");
+                HtmlNode contentNode = doc.DocumentNode.SelectSingleNode("//div[@class='in-base-top clearfix']");
 
-                HtmlNode headNode = contentNode.SelectSingleNode("div[@class='in-base-top clearfix']");
-                HtmlNodeCollection bodyNodes = contentNode.SelectNodes("//li[@class='clearfix']");
+                if (contentNode == null) return new Result();
+
+                HtmlNode wordNode = contentNode.SelectSingleNode("h1");
+                HtmlNode pronounceNode = contentNode.SelectSingleNode("//div[@class='base-speak']");
+                HtmlNodeCollection contentNodes = contentNode.SelectNodes("//li[@class='clearfix']");
 
 
-                StringBuilder body = new StringBuilder();
-                foreach (var item in bodyNodes)
+                StringBuilder content = new StringBuilder();
+                if(contentNodes != null)
                 {
-                    body.AppendLine(new System.Text.RegularExpressions.Regex("[\\s]+").Replace(item.InnerText, " ").Replace("\n", " "));
+                    foreach (var item in contentNodes)
+                    {
+                        content.AppendLine(new System.Text.RegularExpressions.Regex("[\\s]+").Replace(item.InnerText, " ").Replace("\n", " "));
+                    }
                 }
 
                 res.Meanings.Add(
                     new Meaning
                     {
-                        Head = new System.Text.RegularExpressions.Regex("[\\s]+").Replace(headNode.InnerText, " ").Replace("\n", " ").Trim(),
-                        Body = body.ToString()
+                        Info = "词霸",
+                        Word = new System.Text.RegularExpressions.Regex("[\\s]+").Replace(wordNode.InnerText, " ").Replace("\n", " ").Trim(),
+                        Pronounce = new System.Text.RegularExpressions.Regex("[\\s]+").Replace(pronounceNode.InnerText, " ").Replace("\n", " ").Trim(),
+                        Content = content.ToString()
                     }
                 );
 
