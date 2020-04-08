@@ -33,7 +33,7 @@
             <Grid Grid.Row="0">
                 <TextBlock x:Name="txtTitle" Text="关于" Style="{StaticResource TxtTitle}"/>
                 <TextBlock Foreground="#ddd" Margin="20 60 20 0" LineHeight="20" TextWrapping="WrapWithOverflow">
-                    "这是一个简单的搜索 kotobank 或 iciba 网站的小工具，仅供参考，其实不是很好用,很多查不了
+                    "这是一个简单的搜索 weblio(日) 或 iciba(英) 网站小工具，不算好用,很多查不了
                     <LineBreak/>
                     ( ´_ゝ｀)"
                 </TextBlock>
