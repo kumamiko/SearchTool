@@ -47,10 +47,13 @@ namespace SearchTool.Service
 
                             if (node_1 == null || node_2 == null) continue;
 
+                            var content = new System.Text.RegularExpressions.Regex("[\\s]+").Replace(node_2.InnerText, " ").Trim();
+                            content = System.Web.HttpUtility.HtmlDecode(content);
+
                             res.Meanings.Add(new Meaning
                             {
                                 Word = new System.Text.RegularExpressions.Regex("[\\s]+").Replace(node_1.InnerText, " ").Trim(),
-                                Content = new System.Text.RegularExpressions.Regex("[\\s]+").Replace(node_2.InnerText, " ").Trim(),
+                                Content = content,
                                 Pronounce = string.Empty,
                                 Info = info
                             });
